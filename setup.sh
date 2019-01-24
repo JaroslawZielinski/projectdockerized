@@ -49,7 +49,7 @@ fi
 
 if [ ! -f ".env" ];
 then
-  echo ".env" copied."
+  echo "\".env\" copied."
   cp vendor/jaroslawzielinski/project-dockerized/.env .
 else
   echo ".env" already exists."
