@@ -52,7 +52,7 @@ then
   echo "\".env\" copied."
   cp vendor/jaroslawzielinski/project-dockerized/.env .
 else
-  echo ".env" already exists."
+  echo "\".env\" already exists."
 fi
 
 if [ ! -f "docker-compose.yml" ];
