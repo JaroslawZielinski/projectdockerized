@@ -154,6 +154,7 @@ serverOnly() {
 
 init() {
     $DOCKERCOMPOSE up -d \
+    && $DOCKER exec -it ${DOCKERPREFIX}php_1 ash -c "composer clear-cache && COMPOSER_PROCESS_TIMEOUT=2000 composer install" \
     && serverOnly
 }
 
