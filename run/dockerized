@@ -147,9 +147,7 @@ build() {
 serverOnly() {
     dockersPhpIsRunning=$($DOCKER inspect --format "{{index .State.Running}}" ${DOCKERPREFIX}php_1)
     if [ "$dockersPhpIsRunning" = true ]; then
-      mysqlHostname=$($DOCKER inspect --format "{{index .NetworkSettings.Networks.${PROJECTNAMETOLOWER}_dockerized.IPAddress}}" ${DOCKERPREFIX}mysql_1) \
-      && echo "${INFO}mysql -A -h $mysqlHostname -u root -p${DB_ROOT_PASSWORD}${NC}" \
-      && echo "${INFO}PhpMyAdmin: http://127.0.0.1:8080${NC}" \
+      echo "${INFO}PhpMyAdmin: http://127.0.0.1:8080${NC}" \
       && $DOCKER exec -it ${DOCKERPREFIX}php_1 ash -c "php -S ${PROJECT_HOST}:${PROJECT_PORT} -t ${PROJECT_ROOT_PATH}"
     fi
 }
