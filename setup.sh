@@ -49,16 +49,16 @@ fi
 
 if [ ! -f ".env" ];
 then
-  echo "\"dockers/mysql/Dockerfile\" copied."
+  echo ".env" copied."
   cp vendor/jaroslawzielinski/project-dockerized/.env .
 else
-  echo "\"dockers/mysql/Dockerfile\" already exists."
+  echo ".env" already exists."
 fi
 
 if [ ! -f "docker-compose.yml" ];
 then
-  echo "\"dockers/mysql/Dockerfile\" copied."
+  echo "\"docker-compose.yml\" copied."
   cp vendor/jaroslawzielinski/project-dockerized/docker-compose.yml .
 else
-  echo "\"dockers/mysql/Dockerfile\" already exists."
+  echo "\"docker-compose.yml\" already exists."
 fi
