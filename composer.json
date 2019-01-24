@@ -1,7 +1,7 @@
 {
     "name": "jaroslawzielinski/project-dockerized",
     "description": "PHP Composer procject dockerized with mysql",
-    "type": "library",
+    "type": "custom-plugin",
     "license": "MIT",
     "version": "master",
     "authors": [
@@ -10,26 +10,5 @@
             "email": "jarek.zielinski82@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {},
-    "extra": {
-      "map": [
-        [
-          "docker-compose.yml",
-          "docker-compose.yml"
-        ],
-        [
-          "dockers",
-          "dockers"
-        ],
-        [
-          ".env",
-          ".env"
-        ],
-        [
-          "run/dockerized",
-          "run/dockerized"
-        ]
-      ]
-    }
+    "minimum-stability": "dev"
 }
