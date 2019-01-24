@@ -30,7 +30,6 @@ services:
     volumes:
       - .:/var/www/html
       - ./dockers/php/php.ini:/usr/local/etc/php/php.ini
-
     env_file: .env
     working_dir: /var/www/html
     networks:
