@@ -6,7 +6,7 @@ PHP Composer project using mysql dockerized
 
 `composer config repositories.repo-name vcs https://github.com/JaroslawZielinski/project-dockerized.git`
 
-`compose require jaroslawzielinski/project-dockerized dev-master`
+`composer require jaroslawzielinski/project-dockerized dev-master`
 
 `chmod +x vendor/jaroslawzielinski/project-dockerized/setup.sh`
 
