@@ -3,6 +3,7 @@
     "description": "PHP Composer procject dockerized with mysql",
     "type": "library",
     "license": "MIT",
+    "version": "master",
     "authors": [
         {
             "name": "Jarosław Zieliński",
