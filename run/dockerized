@@ -152,6 +152,11 @@ serverOnly() {
     fi
 }
 
+mysqlCommand() {
+  mysqlIP=$($DOCKER inspect --format "{{index .NetworkSettings.Networks.${DOCKERPREFIX}dockerized.IPAddress}}" ${DOCKERPREFIX}mysql_1)
+  echo "mysql -u root -p${DB_ROOT_PASSWORD} -h $mysqlIP";
+}
+
 init() {
     $DOCKERCOMPOSE up -d \
     && $DOCKER exec -it ${DOCKERPREFIX}php_1 ash -c "composer clear-cache && COMPOSER_PROCESS_TIMEOUT=2000 composer install" \
@@ -185,17 +190,22 @@ case "$action" in
     serverOnly
     ;;
 
+    mysqlCommand)
+    mysqlCommand
+    ;;
+
     all)
     all
     ;;
 
     *)
-    printf "How to use : $0 destroy|build|init|serverOnly|all
+    printf "How to use : $0 destroy|build|init|serverOnly|showIP|all
 
   ${INDEX}destroy${NC}       Stops and removes all the server ${HIGHLIGHTED}${PROJECTNAME}${NC} docker containers
   ${INDEX}build${NC}         Build the docker images used in server ${HIGHLIGHTED}${PROJECTNAME}${NC}
   ${INDEX}init${NC}          Run server ${HIGHLIGHTED}${PROJECTNAME}${NC} for the first time installing vendors via composer
   ${INDEX}serverOnly${NC}    Run server ${HIGHLIGHTED}${PROJECTNAME}${NC} only (the environment is already set)
+  ${INDEX}mysqlCommand${NC}  Show connection command of mysql docker container
   ${INDEX}all${NC}           Set up the environment and run server ${HIGHLIGHTED}${PROJECTNAME}${NC} (do it only once)
 
 "
