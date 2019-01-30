@@ -153,8 +153,13 @@ serverOnly() {
 }
 
 mysqlCommand() {
-  mysqlIP=$($DOCKER inspect --format "{{index .NetworkSettings.Networks.${DOCKERPREFIX}dockerized.IPAddress}}" ${DOCKERPREFIX}mysql_1)
-  echo "mysql -u root -p${DB_ROOT_PASSWORD} -h $mysqlIP";
+  dockersMysqlIsRunning=$($DOCKER inspect --format "{{index .State.Running}}" ${DOCKERPREFIX}mysql_1)
+  if [ "$dockersMysqlIsRunning" = true ]; then
+    mysqlIP=$($DOCKER inspect --format "{{index .NetworkSettings.Networks.${DOCKERPREFIX}dockerized.IPAddress}}" ${DOCKERPREFIX}mysql_1)
+    echo "mysql -A -u root -p${DB_ROOT_PASSWORD} -h $mysqlIP";
+  else
+    exit 1;
+  fi
 }
 
 init() {
