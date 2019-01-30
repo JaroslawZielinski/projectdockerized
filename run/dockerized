@@ -204,7 +204,7 @@ case "$action" in
     ;;
 
     *)
-    printf "How to use : $0 destroy|build|init|serverOnly|showIP|all
+    printf "How to use : $0 destroy|build|init|serverOnly|mysqlCommand|all
 
   ${INDEX}destroy${NC}       Stops and removes all the server ${HIGHLIGHTED}${PROJECTNAME}${NC} docker containers
   ${INDEX}build${NC}         Build the docker images used in server ${HIGHLIGHTED}${PROJECTNAME}${NC}
