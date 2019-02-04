@@ -37,6 +37,13 @@ then
     exit 1
 fi
 
+SED=`which sed`
+if [ -z "SED" ];
+then
+    echo "'sed' was not found on your system." >&2
+    exit 1
+fi
+
 # *******************************
 # ***** Mandatory Files  ********
 # *******************************
@@ -156,6 +163,7 @@ mysqlCommand() {
   dockersMysqlIsRunning=$($DOCKER inspect --format "{{index .State.Running}}" ${DOCKERPREFIX}mysql_1)
   if [ "$dockersMysqlIsRunning" = true ]; then
     mysqlIP=$($DOCKER inspect --format "{{index .NetworkSettings.Networks.${DOCKERPREFIX}dockerized.IPAddress}}" ${DOCKERPREFIX}mysql_1)
+    $SED -i "s/^\(DB_HOST\s*=\s*\).*\$/\1$mysqlIP/" .env
     echo "mysql -A -u root -p${DB_ROOT_PASSWORD} -h $mysqlIP";
   else
     exit 1;
@@ -165,6 +173,7 @@ mysqlCommand() {
 init() {
     $DOCKERCOMPOSE up -d \
     && $DOCKER exec -it ${DOCKERPREFIX}php_1 ash -c "composer clear-cache && COMPOSER_PROCESS_TIMEOUT=2000 composer install" \
+    && mysqlCommand \
     && serverOnly
 }
 
