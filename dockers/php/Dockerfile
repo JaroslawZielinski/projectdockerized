@@ -24,3 +24,6 @@ ENV TZ=Europe/Warsaw
 
 # Configure php
 COPY php.ini /usr/local/etc/php/php.ini
+
+# php mysqli extension
+RUN docker-php-ext-install mysqli
