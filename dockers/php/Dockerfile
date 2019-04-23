@@ -27,3 +27,10 @@ COPY php.ini /usr/local/etc/php/php.ini
 
 # php mysqli extension
 RUN docker-php-ext-install mysqli
+
+# php gd extension
+RUN apk add --no-cache libpng libpng-dev && docker-php-ext-install gd && apk del libpng-dev
+RUN apk add --no-cache libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev
+
+# php ext-zip install
+RUN docker-php-ext-install zip
