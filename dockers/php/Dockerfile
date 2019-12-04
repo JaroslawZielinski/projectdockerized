@@ -80,5 +80,16 @@ RUN docker-php-ext-install mysqli && \
 RUN apk add --no-cache tzdata
 ENV TZ=Europe/Warsaw
 
+RUN apk add --no-cache sudo
+
+# Add bash (compliance with ./magento enter php
+RUN apk add --no-cache bash
+
+# Add mc
+RUN apk add --no-cache mc
+
+# Add sl
+RUN apk add --no-cache sl
+
 # Configure php
 COPY php.ini /usr/local/etc/php/php.ini
