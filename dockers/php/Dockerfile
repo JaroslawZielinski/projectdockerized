@@ -82,13 +82,13 @@ ENV TZ=Europe/Warsaw
 
 RUN apk add --no-cache sudo
 
-# Add bash (compliance with ./magento enter php
+# Add bash
 RUN apk add --no-cache bash
 
 # Add mc
 RUN apk add --no-cache mc
 
-# Add sl
+# Add sl (lokomotiv ;)
 RUN apk add --no-cache sl
 
 # Configure php
