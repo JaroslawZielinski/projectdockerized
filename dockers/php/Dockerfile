@@ -82,14 +82,17 @@ ENV TZ=Europe/Warsaw
 
 RUN apk add --no-cache sudo
 
-# Add bash
+# Add bash (compliance with ./magento enter php
 RUN apk add --no-cache bash
 
 # Add mc
 RUN apk add --no-cache mc
 
-# Add sl (lokomotiv ;)
+# Add sl
 RUN apk add --no-cache sl
+
+# Add telnet
+RUN apk add busybox-extras
 
 # Configure php
 COPY php.ini /usr/local/etc/php/php.ini
