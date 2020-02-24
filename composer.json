@@ -1,5 +1,5 @@
 {
-    "name": "jaroslawzielinski/project-dockerized",
+    "name": "jaroslawzielinski/projectdockerized",
     "description": "PHP Composer procject dockerized with mysql",
     "type": "custom-plugin",
     "license": "MIT",
