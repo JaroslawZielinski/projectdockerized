@@ -1,7 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 # The action name as the first parameter
 action=$1
+
+# All other arguments are parameters
+if [ "$#" -gt "1" ]; then
+shift
+parameters=$@
+fi
 
 # *******************************
 # ******* All Globals ***********
@@ -42,6 +48,22 @@ if [ -z "SED" ];
 then
     echo "'sed' was not found on your system." >&2
     exit 1
+fi
+
+# check if xargs is available
+XARGS=`which xargs`
+if [ -z "$XARGS" ];
+then
+    echo "The tool 'xargs' was not found on your system." >&2
+    return 1
+fi
+
+# check if grep is available
+GREP=`which grep`
+if [ -z "$GREP" ];
+then
+    echo "The tool 'grep' was not found on your system." >&2
+    return 1
 fi
 
 # *******************************
@@ -155,7 +177,7 @@ serverOnly() {
     dockersPhpIsRunning=$($DOCKER inspect --format "{{index .State.Running}}" ${DOCKERPREFIX}php_1)
     if [ "$dockersPhpIsRunning" = true ]; then
       echo "${INFO}PhpMyAdmin: http://127.0.0.1:8080${NC}" \
-      && $DOCKER exec -it ${DOCKERPREFIX}php_1 ash -c "php -S ${PROJECT_HOST}:${PROJECT_PORT} -t ${PROJECT_ROOT_PATH}"
+      && $DOCKER exec -it ${DOCKERPREFIX}php_1 bash -c "php -S ${PROJECT_HOST}:${PROJECT_PORT} -t ./${PROJECT_WEB_PATH}"
     fi
 }
 
@@ -181,6 +203,73 @@ all() {
     build
     init
     serverOnly
+}
+
+getContainerNameByType() {
+    # abort if no type is specified
+    local CONTAINER_TYPE="$1"
+    if [ -z "$CONTAINER_TYPE" ];
+    then
+        echo "No container type specified. Please specifiy a container type (e.g. php, installer, mysql, nginx, ...)."  >&2
+        return 1
+    fi
+
+    local containerName=$($DOCKER ps -q | $XARGS $DOCKER inspect --format '{{.Name}}' | $GREP "$CONTAINER_TYPE" | $SED 's:/::' | $GREP "${CONTAINER_TYPE}_1")
+    echo $containerName
+    return 0
+}
+
+enterContainer() {
+    local containerType="$1"
+    if [ -z "$containerType" ];
+    then
+        echo "No container type specified. Please specifiy a container type (e.g. fpm, db, web, ...)."  >&2
+        return 1
+    fi
+
+    local containerName=$(getContainerNameByType $containerType)
+    if [ -z "$containerName" ];
+    then
+        echo "Cannot determine the name of the container." >&2
+        return 1
+    fi
+
+    $DOCKER exec -ti $containerName bash
+    return 0
+}
+
+enter() {
+    enterContainer $parameters
+}
+
+backendShell() {
+  enterContainer 'php'
+}
+
+getPhpContainerName() {
+  local containerType="php"
+  local containerName=$(getContainerNameByType $containerType)
+  if [ -z "$containerName" ];
+  then
+      echo "Cannot determine the name of the container." >&2
+      return 1
+  fi
+  echo $containerName
+  return 0
+}
+
+executeComposer() {
+    local containerName=$(getPhpContainerName)
+    $DOCKER exec $containerName composer --working-dir="." $@
+    return 0
+}
+
+composer() {
+    executeComposer $parameters
+}
+
+fixOwnership() {
+    sudo chown $USER:$USER -R $PROJECT_ROOT_PATH/
 }
 
 # *******************************
@@ -212,6 +301,22 @@ case "$action" in
     all
     ;;
 
+    enter)
+    enter
+    ;;
+
+    shell)
+    backendShell
+    ;;
+
+    composer)
+    composer
+    ;;
+
+    fixOwns)
+    fixOwnership
+    ;;
+
     *)
     printf "How to use : $0 destroy|build|init|serverOnly|mysqlCommand|all
 
@@ -221,6 +326,10 @@ case "$action" in
   ${INDEX}serverOnly${NC}    Run server ${HIGHLIGHTED}${PROJECTNAME}${NC} only (the environment is already set)
   ${INDEX}mysqlCommand${NC}  Show connection command of mysql docker container
   ${INDEX}all${NC}           Set up the environment and run server ${HIGHLIGHTED}${PROJECTNAME}${NC} (do it only once)
+  ${INDEX}enter${NC}         Enter container for ${HIGHLIGHTED}${PROJECTNAME}${NC}
+  ${INDEX}shell${NC}         Enter Command Line for ${HIGHLIGHTED}${PROJECTNAME}${NC}
+  ${INDEX}composer${NC}      Run Composer for
+  ${INDEX}fixOwns${NC}       Fix Ownership
 
 "
     ;;
