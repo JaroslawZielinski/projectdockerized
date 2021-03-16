@@ -47,12 +47,12 @@ else
   echo "\"run/dockerized\" already exists."
 fi
 
-if [ ! -f ".env" ];
+if [ ! -f ".env.dist" ];
 then
-  echo "\".env\" copied."
-  cp vendor/jaroslawzielinski/projectdockerized/.env .
+  echo "\".env.dist\" copied."
+  cp vendor/jaroslawzielinski/projectdockerized/.env.dist .
 else
-  echo "\".env\" already exists."
+  echo "\".env.dist\" already exists."
 fi
 
 if [ ! -f "docker-compose.yml" ];
