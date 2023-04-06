@@ -2,10 +2,10 @@
 PHP Composer project using mysql dockerized
 
 # how to use shell commands
+in [packagist](https://packagist.org/packages/jaroslawzielinski/projectdockerized)
 ```ssh
 cd YourProject
-composer config repositories.projectdockerized vcs https://github.com/JaroslawZielinski/projectdockerized.git
-composer require jaroslawzielinski/projectdockerized dev-master
+composer require jaroslawzielinski/projectdockerized
 sh vendor/jaroslawzielinski/projectdockerized/setup.sh
 cp .env.dist .env
 run/dockerized

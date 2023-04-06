@@ -3,12 +3,10 @@
     "description": "PHP Composer procject dockerized with mysql",
     "type": "custom-plugin",
     "license": "MIT",
-    "version": "master",
     "authors": [
         {
             "name": "Jarosław Zieliński",
             "email": "jarek.zielinski82@gmail.com"
         }
-    ],
-    "minimum-stability": "dev"
+    ]
 }
