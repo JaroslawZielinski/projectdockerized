@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 # install pdo_mysql and composer and other utilities
 RUN apk update --no-cache \

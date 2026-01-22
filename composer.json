@@ -1,12 +1,12 @@
 {
     "name": "jaroslawzielinski/projectdockerized",
-    "description": "PHP Composer procject dockerized with mysql",
+    "description": "PHP Composer project dockerized with mysql",
     "type": "custom-plugin",
     "license": "MIT",
     "authors": [
         {
             "name": "Jarosław Zieliński",
-            "email": "jarek.zielinski82@gmail.com"
+            "email": "jaroslaw.zielinski982@gmail.com"
         }
     ],
     "funding": [
